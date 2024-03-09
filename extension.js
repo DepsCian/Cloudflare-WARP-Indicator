@@ -40,11 +40,15 @@ class Indicator extends PanelMenu.Button {
         });
         this.add_child(this._icon);
     
-        this._buttonSwitchItem = new PopupMenu.PopupSwitchMenuItem(_('Toggle WARP Connection'), { status: false, style_class: 'toggle-switch' });
+        this._buttonSwitchItem = new PopupMenu.PopupSwitchMenuItem(_(''), { status: false }, { style_class: 'warp-switch' });
         this._buttonSwitchItem.connect('toggled', () => {
             this._toggleWarpConnection();
         });
+        this._label = new PopupMenu.PopupMenuItem('    WARP', {style_class: 'warp-label'});
+        this._isConnectedLabel = new PopupMenu.PopupMenuItem('        Disconnected', {style_class: 'warp-label-status'});
+        this.menu.addMenuItem(this._label);
         this.menu.addMenuItem(this._buttonSwitchItem);
+        this.menu.addMenuItem(this._isConnectedLabel);
         this._checkConnectionStatus();
         this._updateSwitchState();
     }
@@ -141,14 +145,21 @@ class Indicator extends PanelMenu.Button {
                 case 'Error':
                     this._icon.icon_name = 'weather-severe-alert-symbolic';
                     this._icon.style_class = 'warp-error';
+                    this._isConnectedLabel.label.text = '            Error';
+                    this._isConnectedLabel.style_class = 'warp-label-status-error';
                     break;
                 case true:
                     this._icon.icon_name = 'weather-overcast-symbolic';
                     this._icon.style_class = 'warp-connected';
+                    this._isConnectedLabel.label.text = '          Connected';
+                    this._isConnectedLabel.style_class = 'warp-label-status';
                     break;
                 default:
                     this._icon.icon_name = 'weather-overcast-symbolic';
                     this._icon.style_class = 'warp-disconnected';
+                    this._isConnectedLabel.label.text = '        Disconnected';
+                    this._isConnectedLabel.style_class = 'warp-label-status';
+                    break;
             }
         }
 });

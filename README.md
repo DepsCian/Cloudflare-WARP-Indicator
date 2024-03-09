@@ -1,6 +1,6 @@
-# WARP Indicator Extension for GNOME Shell
+# Cloudflare WARP Indicator Extension for GNOME Shell
 
-This GNOME Shell extension adds a WARP connection indicator to the status area of the GNOME Shell panel. It allows users to connect to, disconnect from, and check the status of their WARP connection directly from the desktop.
+This GNOME Shell extension adds a Cloudflare WARP connection indicator to the status area of the GNOME Shell panel. It allows users to connect to, disconnect from, and check the status of their WARP connection directly from the desktop.
 
 ## Features
 - **WARP Connection Toggle:** A switch to connect or disconnect from WARP.
@@ -10,7 +10,7 @@ This GNOME Shell extension adds a WARP connection indicator to the status area o
 ## Dependencies
 - `GNOME Shell 45`
 - `GObject-Introspection`
-- `warp-cli` - command-line tool for managing WARP connections
+- `warp-cli` - command-line tool for managing Cloudflare WARP
 
 ## Installation
 1. Ensure you have GNOME Shell and the `warp-cli` tool installed on your system.

@@ -1,0 +1,8 @@
+{
+  "name": "Cloudflare Warp Indicator",
+  "description": "Makes using Cloudflare WARP easier.",
+  "uuid": "cloudflarewarpindicator@depscian.com",
+  "shell-version": [
+    "45"
+  ]
+}

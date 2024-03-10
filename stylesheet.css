@@ -11,7 +11,8 @@
 }
 
 .warp-switch {
-    margin-right: 30px;
+    margin-right: 6px;
+    padding-right: 6px;
     background-color: transparent;
     border: none;
     padding-bottom: 12px;

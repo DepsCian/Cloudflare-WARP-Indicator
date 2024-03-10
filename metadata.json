@@ -1,8 +1,9 @@
 {
-  "name": "Cloudflare Warp Indicator",
-  "description": "Makes using Cloudflare WARP easier.",
+  "name": "Cloudflare WARP Indicator",
+  "description": "Makes using Cloudflare WARP easier",
   "uuid": "cloudflarewarpindicator@depscian.com",
   "shell-version": [
     "45"
-  ]
+  ],
+  "url": "https://github.com/depscian/cloudflare-warp-indicator"
 }

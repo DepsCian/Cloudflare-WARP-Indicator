@@ -1,21 +1,3 @@
-/* extension.js
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * SPDX-License-Identifier: GPL-2.0-or-later
- */
-
 import GObject from 'gi://GObject';
 import St from 'gi://St';
 import GLib from 'gi://GLib';
@@ -44,11 +26,15 @@ class Indicator extends PanelMenu.Button {
         this._buttonSwitchItem.connect('toggled', () => {
             this._toggleWarpConnection();
         });
-        this._label = new PopupMenu.PopupMenuItem('    WARP', {style_class: 'warp-label'});
-        this._isConnectedLabel = new PopupMenu.PopupMenuItem('        Disconnected', {style_class: 'warp-label-status'});
+        this._label = new PopupMenu.PopupMenuItem('WARP', {style_class: 'warp-label'});
+        this._isConnectedLabel = new PopupMenu.PopupMenuItem('Disconnected', {style_class: 'warp-label-status'});
+        this._label.set_x_align(2);
         this.menu.addMenuItem(this._label);
+        this._buttonSwitchItem.set_x_align(2);
         this.menu.addMenuItem(this._buttonSwitchItem);
+        this._isConnectedLabel.set_x_align(2);
         this.menu.addMenuItem(this._isConnectedLabel);
+        this._label.set_x_align(2);
         this._checkConnectionStatus();
         this._updateSwitchState();
     }
@@ -61,6 +47,12 @@ class Indicator extends PanelMenu.Button {
         }
     }
 
+    /**
+     * Executes a command using GLib.spawn_command_line_sync and handles any errors.
+     *
+     * @param {string} command - the command to be executed
+     * @return {Array} an array containing success status, stdout, and stderr
+     */
     _executeCommand(command) {
         try {
             let [success, stdout, stderr] = GLib.spawn_command_line_sync(command);
@@ -145,19 +137,19 @@ class Indicator extends PanelMenu.Button {
                 case 'Error':
                     this._icon.icon_name = 'weather-severe-alert-symbolic';
                     this._icon.style_class = 'warp-error';
-                    this._isConnectedLabel.label.text = '            Error';
+                    this._isConnectedLabel.label.text = 'Error';
                     this._isConnectedLabel.style_class = 'warp-label-status-error';
                     break;
                 case true:
                     this._icon.icon_name = 'weather-overcast-symbolic';
                     this._icon.style_class = 'warp-connected';
-                    this._isConnectedLabel.label.text = '          Connected';
+                    this._isConnectedLabel.label.text = 'Connected';
                     this._isConnectedLabel.style_class = 'warp-label-status';
                     break;
                 default:
                     this._icon.icon_name = 'weather-overcast-symbolic';
                     this._icon.style_class = 'warp-disconnected';
-                    this._isConnectedLabel.label.text = '        Disconnected';
+                    this._isConnectedLabel.label.text = 'Disconnected';
                     this._isConnectedLabel.style_class = 'warp-label-status';
                     break;
             }

@@ -23,3 +23,6 @@ This GNOME Shell extension adds a Cloudflare WARP connection indicator to the st
 1. Ensure you have GNOME Shell and the `warp-cli` tool installed on your system.
 2. Copy the extension to your GNOME Shell extensions directory, typically `~/.local/share/gnome-shell/extensions/`.
 3. Enable the extension using GNOME Extensions app.
+
+> [!IMPORTANT]
+> This extension is not affiliated, funded, or in any way associated with Cloudflare.

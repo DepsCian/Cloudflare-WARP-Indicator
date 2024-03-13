@@ -85,6 +85,7 @@ const Indicator = GObject.registerClass(
 
     async _connectToWarp() {
       let [connectSuccess, connectStderr] = await this._executeCommandAsync(['warp-cli', 'connect']);
+      isConnected = 'Connecting...';
 
       if (connectSuccess) {
         let checkStatus = () => {
@@ -93,7 +94,7 @@ const Indicator = GObject.registerClass(
               let statusOutput = statusStdout;
               if (statusOutput.includes('Connected')) {
                 isConnected = true;
-                Main.notify(_('Connection to WARP successful!'));
+                Main.notify(('Connection to WARP successful!'));
               } else {
                 isConnected = 'Error';
                 let reason = statusOutput.includes('Reason') ? statusOutput.split('Reason:')[1] : '';
@@ -101,16 +102,18 @@ const Indicator = GObject.registerClass(
               }
             } else {
               isConnected = 'Error';
-              Main.notify(`Error checking WARP connection status: ${statusStderr}`);
+              Main.notify(`Error checking WARP connection status!`);
+              log('ERROR | Cloudflare WARP Indicator: ' + statusStderr);
             }
             this._updateSwitchState();
           });
           return false;
         };
-        GLib.timeout_add(GLib.PRIORITY_DEFAULT, 4000, checkStatus);
+        this._connectTimer = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 4000, checkStatus);
       } else {
         isConnected = 'Error';
-        Main.notify(`Error connecting to WARP: ${connectStderr}`);
+        Main.notify(`Error connecting to WARP!`);
+        log('ERROR | Cloudflare WARP Indicator: ' + connectStderr);
         this._updateSwitchState();
       }
     }
@@ -120,13 +123,15 @@ const Indicator = GObject.registerClass(
         let [success, stdout, stderr] = await this._executeCommandAsync(['warp-cli', 'disconnect']);
         if (success && stdout === 'Success') {
           isConnected = false;
-          Main.notify(_('Disconnected from WARP!'));
+          Main.notify(('Disconnected from WARP!'));
         } else {
           isConnected = 'Error';
-          Main.notify(`Error disconnecting from WARP: ${stderr}`);
+          Main.notify(`Error disconnecting from WARP!`);
+          log('ERROR | Cloudflare WARP Indicator: ' + stderr);
         }
       } catch (e) {
-        Main.notify(`Error disconnecting from WARP: ${e.message}`);
+        Main.notify(`Error disconnecting from WARP!`);
+        log('ERROR | Cloudflare WARP Indicator: ' + e.message);
       }
       this._updateSwitchState();
     }
@@ -144,7 +149,7 @@ const Indicator = GObject.registerClass(
                 Main.notify(_('Connection to WARP successful!'));
               }
             }
-          } else {
+          } else if (success && stdout.includes('Disconnected')) {
             if (isConnected) {
               isConnected = false;
       
@@ -153,11 +158,25 @@ const Indicator = GObject.registerClass(
                 Main.notify(`Connection to WARP lost!`);
               }
             }
+          } else if (success && stdout.includes('Registration Missing') && isConnected === 'Connecting...') {
+            Main.notify('Registering to WARP...');
+            const [regSuccess, regStdout] = await this._executeCommandAsync(['warp-cli', 'registration', 'new']);
+            if (regSuccess && regStdout.includes('Success')) {
+              Main.notify('Successfully registered to WARP!');
+            } else {
+              this.isConnected = 'Error';
+              Main.notify(`Error registering to WARP!`);
+              log(`ERROR | Cloudflare WARP Indicator: ${regStdout}`);
+            }
           }
         } catch (e) {
+          if (e.message.includes(('No such file or directory') || e.message.includes('not found')) && isConnected !== 'Error') {
+            Main.notify('Cloudflare WARP is not installed!');
+            log(`ERROR | Cloudflare WARP Indicator: Cloudflare WARP is not installed! Install it from https://pkg.cloudflareclient.com/`);
+          } else if (isConnected !== 'Error') {
+            log(`ERROR | Cloudflare WARP Indicator: ${e.message}`);
+          }
           isConnected = 'Error';
-          Main.notify(`${e.message}`);
-          log(`Error checking WARP connection status: ${e.message}`);
         }
       
         this._updateSwitchState();
@@ -187,6 +206,14 @@ const Indicator = GObject.registerClass(
           break;
       }
     }
+
+    destroy() {
+      if (this._connectTimer) {
+          GLib.source_remove(this._connectTimer);
+      }
+      super.destroy();
+    }
+
   });
 
 export default class WARPExtension extends Extension {
@@ -195,8 +222,12 @@ export default class WARPExtension extends Extension {
     Main.panel.addToStatusArea(this.uuid, this._indicator);
 
     this._checkStatusTimeoutId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 5, () => {
+      try{
         this._indicator._checkConnectionStatus(true);
-        return true;
+      } catch (e) {
+        log(`ERROR | Cloudflare WARP Indicator: ${e.message}`);
+      }
+      return true;
       });
   }
 

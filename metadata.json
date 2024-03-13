@@ -1,9 +1,10 @@
 {
   "name": "Cloudflare WARP Indicator",
-  "description": "Makes using Cloudflare WARP easier",
+  "description": "Makes using Cloudflare WARP easier | This extension is not affiliated, funded, or in any way associated with Cloudflare.",
   "uuid": "cloudflarewarpindicator@depscian.com",
   "shell-version": [
     "45"
   ],
-  "url": "https://github.com/depscian/cloudflare-warp-indicator"
+  "url": "https://github.com/depscian/cloudflare-warp-indicator",
+  "version": "0.15.0"
 }

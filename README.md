@@ -9,7 +9,7 @@ This GNOME Shell extension adds a Cloudflare WARP connection indicator to the st
 
 ## Dependencies
 - `GNOME Shell 45`
-- `GObject-Introspection`
+- `GObject-Introspection` - usually preinstalled with GNOME Shell
 - `warp-cli` - command-line tool for managing Cloudflare WARP
 
 ## Installation
@@ -20,9 +20,12 @@ This GNOME Shell extension adds a Cloudflare WARP connection indicator to the st
 
 #### Manually
 
-1. Ensure you have GNOME Shell and the `warp-cli` tool installed on your system.
-2. Copy the extension to your GNOME Shell extensions directory, typically `~/.local/share/gnome-shell/extensions/`.
-3. Enable the extension using GNOME Extensions app.
+1. Download the repository and save it to any convenient location on your PC.
+2. Navigate to the folder with the repository in your terminal.
+3. Use the prepared script to install the extension:
+```console
+$ sh ./install.sh
+```
 
 > [!IMPORTANT]
 > This extension is not affiliated, funded, or in any way associated with Cloudflare.

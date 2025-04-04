@@ -1,10 +1,13 @@
 {
-  "name": "Cloudflare WARP Indicator",
+  "name": "Cloudflare WARP Indicator Legacy",
   "description": "Makes using Cloudflare WARP easier | This extension is not affiliated, funded, or in any way associated with Cloudflare.",
-  "uuid": "cloudflarewarpindicator@depscian.com",
+  "uuid": "cloudflarewarpindicatorlegacy@depscian.com",
   "shell-version": [
-    "45"
+    "41",
+    "42",
+    "43",
+    "44"
   ],
-  "url": "https://github.com/depscian/cloudflare-warp-indicator",
+  "url": "https://github.com/DepsCian/Cloudflare-WARP-Indicator/tree/legacy",
   "version": "0.15.2"
 }

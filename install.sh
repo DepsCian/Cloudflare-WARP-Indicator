@@ -7,7 +7,7 @@ WHITE='\033[1;37m'
 GREY='\033[0;37m'
 NC='\033[0m'
 
-VERSION="0.15.2"
+VERSION="0.15.2 Legacy"
 
 if which warp-cli >/dev/null; then
     echo "${WHITE}Installing Cloudflare WARP Indicator (${GREY}${VERSION}${WHITE})...${NC}"

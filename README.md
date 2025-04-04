@@ -8,7 +8,9 @@ This GNOME Shell extension adds a Cloudflare WARP connection indicator to the st
 - **Immediate Feedback:** Notifications provide immediate feedback on the success or failure of connection attempts.
 
 ## Dependencies
-- `GNOME Shell 45`
+- `GNOME Shell 41 - 44`
+  > [!NOTE]
+  > This version targets older GNOME releases and is no longer actively maintained. You can find the source code for this specific version here: [https://github.com/DepsCian/Cloudflare-WARP-Indicator/tree/main](https://github.com/DepsCian/Cloudflare-WARP-Indicator/tree/main). For GNOME 45+, please use the latest version from the GNOME Extensions website.
 - `GObject-Introspection` - usually preinstalled with GNOME Shell
 - `warp-cli` - command-line tool for managing Cloudflare WARP
 
@@ -16,7 +18,7 @@ This GNOME Shell extension adds a Cloudflare WARP connection indicator to the st
 
 #### Simple
 
-- Install the extension from [GNOME Shell Extensions website](https://extensions.gnome.org/extension/6825/cloudflare-warp-indicator/)
+- ~~Install the extension from [GNOME Shell Extensions website](https://extensions.gnome.org/extension/6825/cloudflare-warp-indicator/)~~
 
 #### Manually
 

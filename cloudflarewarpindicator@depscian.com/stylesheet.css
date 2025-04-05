@@ -1,13 +1,107 @@
 .warp-disconnected {
-    color: #808080;
+    color: #8c8c8c;
 }
 
 .warp-connected {
-    color: #ffffff;
+    color: #f38020;
 }
 
 .warp-error {
+    color: red;
+}
+
+.warp-popup-menu .popup-menu-content {
+    padding: 0 !important;
+    background-color: transparent !important;
+    box-shadow: none;
+    border-radius: 16px;
+}
+
+.warp-popup-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0px;
+    background-color: transparent;
+    /* box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5); */
+}
+
+.warp-container {
+    padding: 48px 12px;
+    width: 200px;
+    spacing: 12px;
+    background-color: rgba(0, 0, 0, 1);
+    border-radius: 14px;
+    /* box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1); */
+}
+
+.warp-title-label {
+    font-size: 34px;
+    font-weight: bold;
+    font-family: Ubuntu, Cantarell, "DejaVu Sans", sans-serif;
+    color: #8c8c8c;
+    padding: 8px 0;
+}
+
+.warp-title-connected {
+    color: #f38020;
+}
+
+.warp-switch-button {
+    width: 64px;
+    height: 34px;
+    padding: 0;
+}
+
+.warp-switch-button:hover {
     cursor: pointer;
+}
+
+.warp-switch-container {
+    width: 64px;
+    height: 34px;
+    padding: 0;
+}
+
+.warp-switch-track {
+    background-color: #1c1c1d;
+    border-radius: 17px;
+    height: 34px;
+    width: 64px;
+    transition-duration: 250ms;
+}
+
+.warp-switch-track.warp-switch-active {
+    background-color: #f38020;
+}
+
+.warp-switch-handle {
+    background-color: white;
+    border-radius: 15px;
+    height: 30px;
+    width: 30px;
+    margin: 2px;
+    transition-duration: 250ms;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.warp-switch-handle.warp-switch-handle-active {
+    margin-left: 32px;
+}
+
+.warp-status-label {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Ubuntu, Cantarell, "DejaVu Sans", sans-serif;
+    color: white;
+    padding: 4px 0 2px 0;
+}
+
+.warp-privacy-label {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: Ubuntu, Cantarell, "DejaVu Sans", sans-serif;
+    color: white;
+    padding: 0;
 }
 
 .warp-switch {
@@ -49,6 +143,68 @@
     font-weight: bolder;
     text-align: center;
     padding-bottom: 4px;
+}
+
+.warp-progress-container {
+    width: 180px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    spacing: 8px;
+}
+
+.warp-progress-label {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: sans-serif;
+    color: #f38020;
+    padding: 4px 0;
+}
+
+.warp-progress-detail {
+    font-size: 12px;
+    font-family: sans-serif;
+    color: white;
+    font-style: italic;
+    padding: 4px 0;
+}
+
+.warp-progress-bar-container {
+    width: 180px;
+    height: 8px;
+    padding: 0;
+}
+
+.warp-progress-bar-bg {
+    background-color: #1c1c1d;
+    border-radius: 4px;
+    height: 8px;
+    width: 180px;
+}
+
+.warp-progress-bar-fill {
+    background-color: #f38020;
+    border-radius: 4px;
+    height: 8px;
+    transition-duration: 300ms;
+}
+
+.warp-install-button {
+    background-color: #f38020;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 40px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    margin: 8px 0;
+}
+
+.warp-install-button:hover {
+    background-color: #ff9c41;
+}
+
+.warp-install-button:active {
+    background-color: #d26400;
 }
 
 

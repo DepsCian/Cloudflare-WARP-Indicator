@@ -3,8 +3,11 @@
   "description": "Makes using Cloudflare WARP easier | This extension is not affiliated, funded, or in any way associated with Cloudflare.",
   "uuid": "cloudflarewarpindicator@depscian.com",
   "shell-version": [
-    "45"
+    "45",
+    "46",
+    "47",
+    "48"
   ],
   "url": "https://github.com/depscian/cloudflare-warp-indicator",
-  "version": "0.15.2"
+  "version": "1.0.0"
 }

@@ -10,6 +10,8 @@ export async function installWarp(setState, setInstallStep, ensureProperInstalla
     setInstallStep(InstallationStep.CHECKING_DEPS, 0);
     Logger.info('Starting Cloudflare WARP installation');
 
+    let installTimeoutId = null;
+
     try {
         const requiredCommands = ['curl', 'sudo'];
         for (const cmd of requiredCommands) {
@@ -19,7 +21,7 @@ export async function installWarp(setState, setInstallStep, ensureProperInstalla
                 setInstallStep(InstallationStep.FAILED, 0);
                 Main.notify(`Installation failed: ${error}`);
                 setState(ConnectionState.ERROR);
-                return;
+                return installTimeoutId;
             }
         }
 
@@ -32,7 +34,7 @@ export async function installWarp(setState, setInstallStep, ensureProperInstalla
             setInstallStep(InstallationStep.FAILED, 20);
             Main.notify(`Installation failed: ${error}`);
             setState(ConnectionState.ERROR);
-            return;
+            return installTimeoutId;
         }
 
         setInstallStep(InstallationStep.REQUESTING_SUDO, 30);
@@ -56,25 +58,28 @@ export async function installWarp(setState, setInstallStep, ensureProperInstalla
             Main.notify('Failed to install Cloudflare WARP. Try manual installation.');
             setState(ConnectionState.ERROR);
             recommendManualInstallation();
-            return;
+            return installTimeoutId;
         }
 
         setInstallStep(InstallationStep.STARTING_SERVICE, 85);
-        await startWarpService();
+        const timeoutId = await startWarpService();
 
         setInstallStep(InstallationStep.COMPLETED, 100);
         Logger.info('Cloudflare WARP installation completed successfully');
 
-        GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => {
+        installTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => {
             ensureProperInstallationState();
             return GLib.SOURCE_REMOVE;
         });
+        
+        return installTimeoutId;
     } catch (e) {
         Logger.error(`Installation failed: ${e.message}`);
         setInstallStep(InstallationStep.FAILED, 0);
         Main.notify(`Failed to install Cloudflare WARP: ${e.message}`);
         setState(ConnectionState.ERROR);
         recommendManualInstallation();
+        return installTimeoutId;
     }
 }
 

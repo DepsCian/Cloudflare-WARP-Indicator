@@ -20,6 +20,11 @@ export default class WARPExtension extends Extension {
     disable() {
         Logger.info('Disabling Cloudflare WARP Indicator extension');
         
+        if (this._checkStatusTimeoutId) {
+            GLib.source_remove(this._checkStatusTimeoutId);
+            this._checkStatusTimeoutId = null;
+        }
+        
         if (this._indicator) {
             this._indicator.destroy();
             this._indicator = null;

@@ -101,5 +101,6 @@ export default class Logger {
             Logger._flushTimeoutId = null;
         }
         Logger._flushBuffer();
+        Logger._logBuffer = [];
     }
 } 

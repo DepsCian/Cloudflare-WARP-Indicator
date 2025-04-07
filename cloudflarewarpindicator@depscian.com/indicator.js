@@ -263,10 +263,20 @@ class Indicator extends PanelMenu.Button {
                 statusText = 'Installation complete!';
                 detailText = 'Cloudflare WARP was installed successfully';
                 
-                GLib.timeout_add(GLib.PRIORITY_DEFAULT, 3000, () => {
+                if (this._installCompleteTimeoutId) {
+                    GLib.source_remove(this._installCompleteTimeoutId);
+                    this._installCompleteTimeoutId = null;
+                }
+                
+                this._installCompleteTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 3000, () => {
                     this._handleStateChanged(ConnectionState.DISCONNECTED);
                     
-                    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
+                    if (this._reconnectSwitchTimeoutId) {
+                        GLib.source_remove(this._reconnectSwitchTimeoutId);
+                        this._reconnectSwitchTimeoutId = null;
+                    }
+                    
+                    this._reconnectSwitchTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
                         this._reconnectSwitchButton();
                         Logger.debug('Switch button forcibly reconnected after installation');
                         return GLib.SOURCE_REMOVE;
@@ -280,7 +290,12 @@ class Indicator extends PanelMenu.Button {
                 statusText = 'Installation failed';
                 detailText = 'An error occurred during installation';
                 
-                GLib.timeout_add(GLib.PRIORITY_DEFAULT, 3000, () => {
+                if (this._installFailedTimeoutId) {
+                    GLib.source_remove(this._installFailedTimeoutId);
+                    this._installFailedTimeoutId = null;
+                }
+                
+                this._installFailedTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 3000, () => {
                     this._handleStateChanged(ConnectionState.NOT_INSTALLED);
                     return GLib.SOURCE_REMOVE;
                 });
@@ -311,7 +326,12 @@ class Indicator extends PanelMenu.Button {
             
             Logger.debug(`State transition from ${previousState} to ${newState}, reconnecting signals`);
             
-            GLib.timeout_add(GLib.PRIORITY_DEFAULT, 300, () => {
+            if (this._reconnectSwitchTimeoutId) {
+                GLib.source_remove(this._reconnectSwitchTimeoutId);
+                this._reconnectSwitchTimeoutId = null;
+            }
+            
+            this._reconnectSwitchTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 300, () => {
                 this._reconnectSwitchButton();
                 return GLib.SOURCE_REMOVE;
             });
@@ -490,6 +510,22 @@ class Indicator extends PanelMenu.Button {
     destroy() {
         Logger.debug('Destroying indicator');
         this.stopPeriodicChecks();
+        
+        if (this._installCompleteTimeoutId) {
+            GLib.source_remove(this._installCompleteTimeoutId);
+            this._installCompleteTimeoutId = null;
+        }
+        
+        if (this._installFailedTimeoutId) {
+            GLib.source_remove(this._installFailedTimeoutId);
+            this._installFailedTimeoutId = null;
+        }
+        
+        if (this._reconnectSwitchTimeoutId) {
+            GLib.source_remove(this._reconnectSwitchTimeoutId);
+            this._reconnectSwitchTimeoutId = null;
+        }
+        
         this._controller.removeStateChangedCallback(this._handleStateChanged.bind(this));
         this._controller.removeInstallStepCallback(this._handleInstallStepChanged.bind(this));
         super.destroy();
